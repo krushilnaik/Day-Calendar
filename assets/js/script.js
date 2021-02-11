@@ -1,6 +1,3 @@
-// import moment from 'moment';
-// import 'jquery';
-
 var currentDay = document.getElementById("currentDay");
 var container = document.querySelector(".container");
 
