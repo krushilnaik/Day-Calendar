@@ -24,38 +24,17 @@ for (const time of timeKeys) {
 		timeType = "future";
 	}
 
-	let rowTemplate = `
-		<div id="${time}" class="row time-block">
-			<div class="col-1 hour">${hour % 12 || 12}${hour < 12 ? "AM" : "PM"}</div>
-			<textarea class="col-10 task ${timeType}">${localStorage.getItem(time) || ""}</textarea>
-			<button class="col-1 saveBtn btn"><i class="fas fa-save"></i></button>
-		</div>
+	let timeblock = $(`<div id="${time}" class="row time-block">`).get()[0];
+	timeblock.innerHTML = `
+		<div class="col-1 hour">${hour % 12 || 12}${hour < 12 ? "AM" : "PM"}</div>
+		<textarea class="col-10 task ${timeType}">${localStorage.getItem(time) || ""}</textarea>
+		<button class="col-1 saveBtn btn"><i class="fas fa-save"></i></button>
 	`;
 
-	container.innerHTML += rowTemplate;
-
-	// let currentBlock: HTMLElement = document.getElementById(time);
-	// let currentButton: HTMLButtonElement = currentBlock.querySelector("button");
-	// let textarea: HTMLTextAreaElement = currentBlock.querySelector("textarea");
-	// console.log(currentBlock);
-	// console.log(currentButton);
-	// console.log(textarea);
-
-	// currentButton.addEventListener("click", function (event) {
-	// 	event.preventDefault();
-	// 	localStorage.setItem(time, textarea.value);
-	// 	console.log(`Task ${localStorage.getItem(time)} saved to localStorage.`);
-	// });
-}
-
-// Add all the event listeners afterward
-// for some reason they're not registering in the previous for loop
-for (const button of document.querySelectorAll("button")) {
-	let timeblock = button.closest("div");
-	let textarea: HTMLTextAreaElement = timeblock.querySelector("textarea");
-
-	button.addEventListener("click", function () {
-		localStorage.setItem(timeblock.id, textarea.value);
-		console.log(`${timeblock.id}: task '${localStorage.getItem(timeblock.id)}' saved to localStorage.`);
+	timeblock.lastElementChild.addEventListener("click", function () {
+		localStorage.setItem(time, timeblock.querySelector("textarea").value);
+		console.log(`Task ${localStorage.getItem(time)} saved to localStorage.`);
 	});
+
+	container.appendChild(timeblock);
 }
